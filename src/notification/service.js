@@ -8,7 +8,7 @@ const sendNotification = async (req, res) => {
         tokens: inputData.token,
         notification: {
             title: inputData.title,
-            body: inputData
+            body: inputData.body
         },
         data: {}
     }
