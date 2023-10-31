@@ -6,9 +6,7 @@ const sendNotificationInputValidation = (req, res, next) => {
         token: joi.string().required(),
         title: joi.string().required(),
         body: joi.string().required(),
-        payload: joi.object({
-            user: joi.string()
-        })
+        payload: joi.object()
     });
 
     const { error } = notificationSchema.validate(req.body);
