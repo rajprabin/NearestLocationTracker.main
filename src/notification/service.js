@@ -21,7 +21,7 @@ const sendNotification = async (req, res) => {
             console.log("sendNotification", value)
         })
         .catch((err) => {
-            throw ({ statusCode: 400, message: err })
+            throw ({ statusCode: 400, message: err });
         })
 
     return "notification send successfully";
