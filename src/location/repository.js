@@ -53,17 +53,29 @@ const staticLocations = [
     },
 ]
 
-module.exports.findNearestLocation = (lat, long) => {
+const getDistance = (lat1, lon1, lat2, lon2) => {
+    const toRaduis = (angle) => (angle * Math.PI) / 180;
+    const earthRadius = 6371;
+    const dLat = toRaduis(lat2 - lat1);
+    const dLon = toRaduis(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRaduis(lat1)) * Math.cos(toRaduis(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = earthRadius * c;
+    return distance;
+}
+
+module.exports.findNearestLocation = (targetLat, targetLon) => {
     let nearestLocation = null;
-
-    staticLocations.forEach((staticLocation) => {
-     const userDistance = lat + long;
-     const staticDistance  = staticLocation.lat + staticLocation.long;
-      if(userDistance < staticDistance){
-        nearestLocation = staticLocation
-      }
-    });
-
+    let nearestDistance = Infinity;
+    staticLocations.forEach((location) => {
+        const distance = getDistance(targetLat, targetLon, location.lat, location.long);
+        if (distance < nearestDistance) {
+            nearestLocation = location;
+            nearestDistance = distance;
+        }
+    })
     return nearestLocation;
 }
 
